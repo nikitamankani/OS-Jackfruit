@@ -5,7 +5,7 @@
 | Name | SRN |
 |------|-----|
 | Nikita Mankani | PES1UG24CS300 |
-| Niyatee Singh | PES1UG24CS300 |
+| Niyatee Singh | PES1UG24CS305 |
 
 ---
 
@@ -115,7 +115,7 @@ sudo dmesg | tail -5   # verify "Module unloaded"
 
 Two containers (`alpha`, `beta`) started concurrently under one supervisor process. The supervisor prints each container's host PID as it forks them.
 
-![Screenshot 1](screenshot1.png)
+![Screenshot 1](screenshots/screenshot1.png)
 
 ---
 
@@ -123,7 +123,7 @@ Two containers (`alpha`, `beta`) started concurrently under one supervisor proce
 
 `ps` command output showing both containers in `running` state with their PIDs, exit codes, and configured memory limits (soft 40 MiB / hard 64 MiB).
 
-![Screenshot 2](screenshot2.png)
+![Screenshot 2](screenshots/screenshot2.png)
 
 ---
 
@@ -131,7 +131,7 @@ Two containers (`alpha`, `beta`) started concurrently under one supervisor proce
 
 A `logger` container runs a shell script that emits lines with `sleep` delays between them. The `logs` command retrieves all output buffered through the producer-consumer pipeline — lines arrive in order with no drops.
 
-![Screenshot 3](screenshot3.png)
+![Screenshot 3](screenshots/screenshot3.png)
 
 ---
 
@@ -139,7 +139,7 @@ A `logger` container runs a shell script that emits lines with `sleep` delays be
 
 `stop alpha` is issued over the UNIX domain socket control channel. The supervisor responds with `OK: sent SIGTERM`, and `ps` immediately reflects the updated container states.
 
-![Screenshot 4](screenshot4.png)
+![Screenshot 4](screenshots/screenshot4.png)
 
 ---
 
@@ -147,7 +147,7 @@ A `logger` container runs a shell script that emits lines with `sleep` delays be
 
 `dmesg` shows the kernel module firing a **SOFT LIMIT** warning for container `hog1` (pid=11017). RSS reached 16,166,912 bytes against a soft limit of 8,388,608 bytes — the process is warned but allowed to continue.
 
-![Screenshot 5](screenshot5.png)
+![Screenshot 5](screenshots/screenshot5.png)
 
 ---
 
@@ -155,7 +155,7 @@ A `logger` container runs a shell script that emits lines with `sleep` delays be
 
 `dmesg` shows the **HARD LIMIT** kill event for the same container (RSS 26,710,016 vs limit 26,214,400). `ps` confirms the container transitioned to `exited` state with exit code 127, and memory limits are visible in the metadata.
 
-![Screenshot 6](screenshot6.png)
+![Screenshot 6](screenshots/screenshot6.png)
 
 ---
 
@@ -163,7 +163,7 @@ A `logger` container runs a shell script that emits lines with `sleep` delays be
 
 `cpulow` (nice=+10) and `cpuhigh` (nice=-10) run the same CPU-bound workload for 10 seconds. The logs clearly show `cpuhigh` accumulating a significantly larger value per second, demonstrating CFS weight-based time allocation.
 
-![Screenshot 7](screenshot7.png)
+![Screenshot 7](screenshots/screenshot7.png)
 
 ---
 
@@ -171,7 +171,7 @@ A `logger` container runs a shell script that emits lines with `sleep` delays be
 
 Both containers are stopped, the supervisor performs a clean exit (`[supervisor] clean exit.`), the kernel module is unloaded (`Module unloaded.`), and `ps aux | grep -w Z` confirms zero zombie processes.
 
-![Screenshot 8](screenshot8.png)
+![Screenshot 8](screenshots/screenshot8.png)
 
 ---
 
